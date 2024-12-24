@@ -196,6 +196,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Bank Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         /* Root Variables */
         :root {
@@ -533,29 +534,32 @@
 
         .home-button {
             position: fixed;
-            top: 2rem;
-            left: 2rem;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
             border-radius: 50%;
-            font-size: 1.5rem;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 2;
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
 
         .home-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(-360deg);
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
-    <button class="home-button" onclick="goHome()">🏠</button>
-    <div class="floating-cells" id="floatingCells"></div>
+    <!-- Animated Home Button -->
+    <button class="home-button" onclick="window.location.href='/'">
+        <i class="fas fa-home"></i>
+    </button>
     
     <div class="login-container">
         <button class="close-button" onclick="closePanel()">&times;</button>

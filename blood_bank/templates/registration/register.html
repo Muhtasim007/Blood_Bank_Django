@@ -249,9 +249,35 @@
         .icon-input input {
             padding-left: 35px;
         }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .home-button:hover {
+            transform: scale(1.1) rotate(-360deg);
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
+    <!-- Animated Home Button -->
+    <button class="home-button" onclick="window.location.href='/'">
+        <i class="fas fa-home"></i>
+    </button>
     <div class="container">
         <h2 class="mb-4 text-center animate-fade-in-up">Register New Recipient</h2>
 
@@ -406,3 +432,4 @@
     </script>
 </body>
 </html>
+
