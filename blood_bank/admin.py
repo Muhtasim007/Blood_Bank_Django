@@ -89,7 +89,6 @@ class Recipient2Admin(admin.ModelAdmin):
 # list_editable = ('units', 'capacity')  # Allows editing of units and capacity directly in the list view
 # admin.site.register(BloodInventory, BloodInventoryAdmin)
 
-
 from django.contrib import admin
 from .models import BloodInventory
 
@@ -103,23 +102,57 @@ admin.site.register(BloodInventory, BloodInventoryAdmin)
 
 #New donor reg
 
+# from django.contrib import admin
+# from .models import DonorReg
+
+# @admin.register(DonorReg)
+# class DonorRegAdmin(admin.ModelAdmin):
+#     list_display = ('username', 'full_name', 'blood_group','last_donation_date', 'phone', 'email', 'emergency_donor', 'status')
+#     search_fields = ('username', 'full_name', 'blood_group', 'email')
+#     list_filter = ('blood_group', 'emergency_donor')
+    
+#     #trial new
+#     list_editable = ('status',)
+#     # list_filter = ('status', 'blood_group')
+#     actions = ['approve_requests', 'reject_requests']  # Add custom actions
+
+#     def approve_requests(self, request, queryset):
+#         queryset.update(status='Approved')
+#         self.message_user(request, "Selected requests have been approved.")
+#     approve_requests.short_description = "Approve selected requests"
+
+#     def reject_requests(self, request, queryset):
+#         queryset.update(status='Rejected')
+#         self.message_user(request, "Selected requests have been rejected.")
+#     reject_requests.short_description = "Reject selected requests"
+
+
 from django.contrib import admin
 from .models import DonorReg
+from blood_bank.models import BloodInventory  # Replace 'blood_bank' with the actual app name # Import BloodInventory
 
 @admin.register(DonorReg)
 class DonorRegAdmin(admin.ModelAdmin):
-    list_display = ('username', 'full_name', 'blood_group','last_donation_date', 'phone', 'email', 'emergency_donor', 'status')
+    list_display = ('username', 'full_name', 'blood_group', 'last_donation_date', 'phone', 'email', 'emergency_donor', 'status')
     search_fields = ('username', 'full_name', 'blood_group', 'email')
     list_filter = ('blood_group', 'emergency_donor')
     
-    #trial new
     list_editable = ('status',)
-    # list_filter = ('status', 'blood_group')
     actions = ['approve_requests', 'reject_requests']  # Add custom actions
 
     def approve_requests(self, request, queryset):
-        queryset.update(status='Approved')
-        self.message_user(request, "Selected requests have been approved.")
+        for donor in queryset:
+            if donor.status != 'Approved':  # Only process if not already approved
+                # Update donor status
+                donor.status = 'Approved'
+                donor.save()
+
+                # Update the BloodInventory model
+                inventory, created = BloodInventory.objects.get_or_create(blood_type=donor.blood_group)
+                inventory.units += 1  # Increment the units by 1
+                inventory.save()
+
+        self.message_user(request, "Selected requests have been approved and inventory updated.")
     approve_requests.short_description = "Approve selected requests"
 
     def reject_requests(self, request, queryset):

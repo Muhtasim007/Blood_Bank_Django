@@ -1,11 +1,19 @@
-class Recipient2(models.Model):
-    
-    #user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="recipient")
-    username = models.CharField(max_length=100)
-    full_name = models.CharField(max_length=255, verbose_name="Full Name")
-    blood_group = models.ForeignKey(BloodGroup, on_delete=models.CASCADE)
-    birth_date = models.DateField(verbose_name="Date of Birth")  # Changed 'dob' to 'birth_date'
-    address = models.TextField(null=True, blank=True)
-    contact = models.CharField(max_length=15, null=True, blank=True)
-    nid_number = models.CharField(max_length=20, null=True, blank=True)
-    by_date = models.DateField(null=True, blank=True)
+from django.contrib import admin
+from .models import Recipient2
+
+@admin.register(Recipient2)
+class Recipient2Admin(admin.ModelAdmin):
+    list_display = ('username', 'full_name', 'blood_group', 'birth_date', 'address', 'contact', 'nid_number', 'by_date', 'status')
+    list_editable = ('status',)
+    list_filter = ('status', 'blood_group')
+    actions = ['approve_requests', 'reject_requests']  # Add custom actions
+
+    def approve_requests(self, request, queryset):
+        queryset.update(status='Approved')
+        self.message_user(request, "Selected requests have been approved.")
+    approve_requests.short_description = "Approve selected requests"
+
+    def reject_requests(self, request, queryset):
+        queryset.update(status='Rejected')
+        self.message_user(request, "Selected requests have been rejected.")
+    reject_requests.short_description = "Reject selected requests"
