@@ -65,8 +65,9 @@ from .models import Recipient2
 
 @admin.register(Recipient2)
 class Recipient2Admin(admin.ModelAdmin):
-    list_display = ('username', 'full_name', 'blood_group', 'birth_date', 'address', 'contact', 'nid_number', 'by_date', 'status')
-    list_editable = ('status',)
+    list_display = ('username', 'full_name', 'blood_group','units', 'birth_date', 'address', 'contact', 'nid_number', 'by_date', 'status')
+    list_editable = ('status', 'units')  # Allows editing of status and units directly in the list view)
+    # list_editable = ('units',)
     list_filter = ('status', 'blood_group')
     actions = ['approve_requests', 'reject_requests']  # Add custom actions
 

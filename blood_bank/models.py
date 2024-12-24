@@ -166,6 +166,7 @@ class Recipient2(models.Model):
     contact = models.CharField(max_length=15, null=True, blank=True)
     nid_number = models.CharField(max_length=20, null=True, blank=True)
     by_date = models.DateField(null=True, blank=True)
+    units = models.PositiveIntegerField(default=1)  # New field for units
     # action
     
     
@@ -216,6 +217,7 @@ class Recipient2(models.Model):
     nid_number = models.CharField(max_length=20, null=True, blank=True)
     by_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')  # Add this field
+    units = models.PositiveIntegerField(default=1)  # Ensure this field exists
 
     def __str__(self):
         return f"{self.username} - {self.status}"

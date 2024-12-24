@@ -46,6 +46,7 @@ class CustomLoginView(LoginView):
 def register(request):
     if request.method == 'POST':
         by_date = request.POST.get('by_date', '').strip() #new added by me 
+        units = request.POST.get('units', '1')  # Get the units field, default to 1
         # Collect form data
         username = request.POST.get('username').strip()
         password = request.POST.get('password').strip()
@@ -104,6 +105,7 @@ def register(request):
                 contact=phone_number,
                 nid_number=nid_number,
                 by_date=by_date_obj,  # Save By Date
+                units=int(units),
                 )
             print(ns)
             ns.save()

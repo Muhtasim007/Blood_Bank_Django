@@ -75,6 +75,16 @@
             </select>
         </div>
 
+        <!-- Units Needed -->
+        {% load range_filter %}
+        <div class="mb-3">
+            <label for="units" class="form-label">Need Units:</label>
+            <select id="units" name="units" class="form-select" required>
+                {% for i in 8|range_filter %}
+                    <option value="{{ i|add:1 }}">{{ i|add:1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <!-- By Date -->
 <div class="mb-3">
      <label for="by_date" class="form-label">Needed By:</label>
