@@ -521,3 +521,5 @@ def donor_logout(request):
 
 
 
+#for the notification
+
