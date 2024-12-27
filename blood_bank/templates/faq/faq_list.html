@@ -1,0 +1,65 @@
+<!-- templates/faq/faq_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Frequently Asked Questions</h1>
+    
+    <!-- Search Form -->
+    <form action="{% url 'faq_search' %}" method="GET" class="mb-8">
+        <div class="flex gap-2">
+            <input type="text" name="q" placeholder="Search FAQs..." 
+                   class="flex-1 p-2 border rounded-lg"
+                   value="{{ request.GET.q }}">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                Search
+            </button>
+        </div>
+    </form>
+
+    <!-- FAQ Categories -->
+    {% for category in categories %}
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">{{ category.name }}</h2>
+        {% if category.description %}
+            <p class="text-gray-600 mb-4">{{ category.description }}</p>
+        {% endif %}
+        
+        <!-- FAQ Items -->
+        <div class="space-y-4">
+            {% for faq in category.faqs.all %}
+                {% if faq.is_active %}
+                <div class="border rounded-lg p-4">
+                    <button class="faq-question w-full text-left font-medium flex justify-between items-center">
+                        {{ faq.question }}
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-600">
+                        {{ faq.answer|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.faq-question');
+    
+    questions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector('svg');
+            
+            answer.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+});
+</script>
+{% endblock %}

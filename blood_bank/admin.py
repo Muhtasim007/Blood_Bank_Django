@@ -241,3 +241,25 @@ class DonorRegAdmin(admin.ModelAdmin):
             f"{rejected_count} donor(s) rejected."
         )
     reject_requests.short_description = "Reject selected requests"
+
+
+
+#faq system new admin panel
+
+from django.contrib import admin
+from .models import FAQ, FAQCategory
+
+@admin.register(FAQCategory)
+class FAQCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'order')
+    search_fields = ('name', 'description')
+    ordering = ['order', 'name']
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question', 'category', 'is_active', 'order', 'created_at')
+    list_filter = ('category', 'is_active')
+    search_fields = ('question', 'answer')
+    list_editable = ('is_active', 'order')
+    ordering = ['category', 'order', '-created_at']
+    date_hierarchy = 'created_at'

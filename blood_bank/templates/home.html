@@ -235,7 +235,7 @@
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(225, 29, 72, 0.2);
+            box-shadow: 0 10px 20px rgba(244, 236, 238, 0.33);
         }
 
         .btn-outline {
@@ -571,12 +571,18 @@
                 <a href="/inventory" class="btn btn-outline">Check Inventory</a>
             </div>
             <div class="card">
-                <i class="bi bi-box-seam"></i>
+                <i class="bi bi-box-arrow-in-right"></i>
                 <h3>Register as Donor</h3>
                 <p>Join our community of life-savers by registering as a donor</p>
                 {% comment %} <a href="/inventory" class="btn btn-outline">Check Inventory</a> {% endcomment %}
                 {% comment %} <a href="{% url 'donor2_signup' %}" class="btn btn-outline">Register as Donor</a> {% endcomment %}
                 <a href="donor-signup/" class="btn btn-outline">Register as Donor</a>
+            </div>
+            <div class="card">
+                <i class="bi bi-question-octagon"></i>
+                <h3>FAQs</h3>
+                <p>Frequently Asked Questions - Get the answers you need.</p>
+                <a href="faq/" class="btn btn-outline">View FAQs</a>
             </div>
         </div>
     </section>

@@ -1,0 +1,76 @@
+<!-- templates/faq/faq_search.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">FAQ Search Results</h1>
+    
+    <!-- Search Form -->
+    <form action="{% url 'faq_search' %}" method="GET" class="mb-8">
+        <div class="flex gap-2">
+            <input type="text" name="q" placeholder="Search FAQs..." 
+                   class="flex-1 p-2 border rounded-lg"
+                   value="{{ query }}">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                Search
+            </button>
+        </div>
+    </form>
+
+    <!-- Search Results -->
+    <div class="mb-4">
+        {% if query %}
+            <h2 class="text-xl mb-4">Search results for: "{{ query }}"</h2>
+        {% endif %}
+    </div>
+
+    <!-- FAQ Results -->
+    <div class="space-y-4">
+        {% if faqs %}
+            {% for faq in faqs %}
+                <div class="border rounded-lg p-4">
+                    <div class="text-sm text-gray-500 mb-2">Category: {{ faq.category.name }}</div>
+                    <button class="faq-question w-full text-left font-medium flex justify-between items-center">
+                        {{ faq.question }}
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-600">
+                        {{ faq.answer|linebreaks }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% if query %}
+                <p class="text-gray-600">No FAQs found matching your search.</p>
+            {% else %}
+                <p class="text-gray-600">Please enter a search term to find FAQs.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Back to FAQ Link -->
+    <div class="mt-8">
+        <a href="{% url 'faq_list' %}" class="text-blue-500 hover:text-blue-700">
+            ← Back to all FAQs
+        </a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.faq-question');
+    
+    questions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector('svg');
+            
+            answer.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+});
+</script>
+{% endblock %}

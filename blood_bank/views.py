@@ -521,5 +521,39 @@ def donor_logout(request):
 
 
 
-#for the notification
+#faq system new views added
+
+from django.shortcuts import render
+from django.views.generic import ListView
+from .models import FAQ, FAQCategory
+
+def faq_list(request):
+    """
+    Display all FAQs grouped by category
+    """
+    categories = FAQCategory.objects.prefetch_related('faqs').all()
+    context = {
+        'categories': categories,
+        'faqs': FAQ.objects.filter(is_active=True).select_related('category')
+    }
+    return render(request, 'faq/faq_list.html', context)
+
+def faq_search(request):
+    """
+    Search FAQs based on query
+    """
+    query = request.GET.get('q', '')
+    faqs = FAQ.objects.filter(is_active=True)
+    
+    if query:
+        faqs = faqs.filter(
+            Q(question__icontains=query) | 
+            Q(answer__icontains=query)
+        ).select_related('category')
+    
+    context = {
+        'faqs': faqs,
+        'query': query
+    }
+    return render(request, 'faq/faq_search.html', context)
 

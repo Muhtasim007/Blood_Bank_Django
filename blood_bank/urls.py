@@ -60,6 +60,9 @@ urlpatterns = [
     path('inventory/', views.blood_inventory, name='blood_inventory'),
     # Other paths...
     
+    #faq
+    path('faq/', views.faq_list, name='faq_list'),
+    path('faq/search/', views.faq_search, name='faq_search'),
     
 ]
 
