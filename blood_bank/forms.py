@@ -165,6 +165,18 @@ class DonorRegForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
     last_donation_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Date of Birth")
+    #new added
+    PREFERRED_TIMES_CHOICES = [
+        ('', 'Select preferred time'),
+        ('Morning', 'Morning'),
+        ('Afternoon', 'Afternoon'),
+        ('Evening', 'Evening'),
+    ]
+    
+    preferred_times = forms.ChoiceField(
+        choices=PREFERRED_TIMES_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
     class Meta:
         model = DonorReg
         fields = [
@@ -173,7 +185,7 @@ class DonorRegForm(forms.ModelForm):
         ]
         widgets = {
             'password': forms.PasswordInput(),
-            'preferred_times': forms.TextInput(attrs={'placeholder': 'Specify preferred times (Morning, Afternoon, Evening)'}),
+            #'preferred_times': forms.TextInput(attrs={'placeholder': 'Specify preferred times (Morning, Afternoon, Evening)'}),
         }
 
     def clean(self):

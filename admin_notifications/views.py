@@ -34,6 +34,8 @@ def mark_as_read(request, notification_id):
 from admin_notifications.models import Notification
 
 from django import forms
+#newly added
+from django.contrib.auth.models import User
 
 class ContactForm(forms.Form):
     # Define your form fields here
@@ -69,3 +71,6 @@ def my_notifications(request):
     return render(request, 'my_notifications.html', {
         'notifications': notifications
     })
+    
+    
+    
